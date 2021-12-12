@@ -46,3 +46,35 @@ addToCart.forEach((prd) => {
     }
   });
 });
+
+const searchInput = document.getElementById("searchInput");
+
+let cardContainers = [...document.getElementsByClassName("card-container")];
+
+searchInput.addEventListener("keyup", (e) => {
+  const searchKey = e.target.value;
+
+  let allTitles = cardContainers.map((card) => {
+    let cardDiv = card.children[0];
+    let cardBody = cardDiv.children[1];
+    let cardTitle = cardBody.children[0].innerHTML;
+    return cardTitle;
+  });
+
+  let filteredTitles = allTitles.filter((title) =>
+    title.toLowerCase().includes(searchKey.toLowerCase())
+  );
+
+  let filteredCardDivs = cardContainers.filter((card) => {
+    let cardDiv = card.children[0];
+    let cardBody = cardDiv.children[1];
+    let cardTitle = cardBody.children[0].innerHTML;
+    return filteredTitles.includes(cardTitle);
+  });
+
+  const cardRow = document.getElementById("card-row");
+
+  [...cardRow.children].forEach((child) => cardRow.removeChild(child));
+
+  filteredCardDivs.forEach((card) => cardRow.appendChild(card));
+});
